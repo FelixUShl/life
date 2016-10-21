@@ -13,8 +13,9 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        widget.cpp
-		universe.cpp
+        widget.cpp \
+    universe.cpp
 
-HEADERS  += widget.h
-			universe.h
+HEADERS  += widget.h \
+    universe.h
+
