@@ -1,17 +1,24 @@
 #include "widget.h"
+#include <QTimer>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {
     now = new Universe (this);
-
+    timer = new QTimer(this);
     this->setFixedSize(510, 550);
     startButton->setGeometry(300, 510, 60, 30);
     pauseButton->setGeometry(370, 510, 60, 30);
     stopButton->setGeometry(440, 510, 60, 30);
 
     connect(startButton, SIGNAL (released()),
-            this, SLOT (pressedStart()));
+            this, SLOT (liveCicle()));
+
+    connect(stopButton, SIGNAL (released()),
+                timer, SLOT (stop()));
+
+
+
 }
 
 Widget::~Widget()
@@ -22,7 +29,7 @@ Widget::~Widget()
 void Widget::paintEvent(QPaintEvent *)//в какой момент ты отрабатываешь?????
 {
     QPainter paint (this);
-   // clear(paint);
+    // clear(paint);
     paintGeneration(&paint, now);
 
 
@@ -31,7 +38,7 @@ void Widget::paintEvent(QPaintEvent *)//в какой момент ты отра
 void Widget::paintGeneration(QPainter *paint, Universe *universe)//отрисовка поколения
 {
 
-   for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 100; i++)
     {
         for (int j = 0; j < 100; j++ )
         {
@@ -76,25 +83,21 @@ void Widget::setCellCoords(QMouseEvent *event)
 
 void Widget::liveCicle()
 {
-
-
-
+    connect(timer, SIGNAL(timeout()), this, SLOT(pressedStart()));
+    timer->start(500);
 }
 
 void Widget::pressedStart()
 {
-    int x = 1;
-    while (x > 0)
+    for (int i = 0; i < 100; i++)
+    {
+        for (int j = 0; j < 100; j++ )
         {
-            for (int i = 0; i < 100; i++)
-             {
-                 for (int j = 0; j < 100; j++ )
-                 {this->now->generation[i][j] = !this->now->generation[i][j];}
-            };
-            update();
-
-
+            this->now->generation[i][j] = !this->now->generation[i][j];
         }
+    };
+    this->update();
+
 }
 
 void Widget::pressedStop()

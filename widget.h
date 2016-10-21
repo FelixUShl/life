@@ -13,6 +13,7 @@ class Widget : public QWidget
     Q_OBJECT
 
 public:
+    QTimer *timer;
     Universe *now;
     Universe *next;
     QPushButton *startButton = new QPushButton ("Старт", this);
@@ -25,11 +26,11 @@ public:
     void paintGeneration(QPainter *paint, Universe *universe);
     void mouseReleaseEvent (QMouseEvent *event);
     void setCellCoords(QMouseEvent *event);
-    void liveCicle();
 
 public slots:
     void pressedStart();
     void pressedStop();
+    void liveCicle();
 
 
 };
