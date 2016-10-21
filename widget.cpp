@@ -60,7 +60,7 @@ void Widget::paintGeneration(QPainter *paint, Universe *universe)//отрисо�
 
 }
 
-void Widget::mouseReleaseEvent(QMouseEvent *event)
+void Widget::mouseReleaseEvent(QMouseEvent *event)//реакция на клик мыши
 {
     setCellCoords(event);
     update();
@@ -81,7 +81,7 @@ void Widget::setCellCoords(QMouseEvent *event)
     };
 }
 
-void Widget::liveCicle()
+void Widget::liveCicle()//включается таймер и перерисовка поколений
 {
     connect(timer, SIGNAL(timeout()), this, SLOT(pressedStart()));
     timer->start(500);
@@ -89,18 +89,34 @@ void Widget::liveCicle()
 
 void Widget::pressedStart()
 {
+    next = new Universe ();
+
     for (int i = 0; i < 100; i++)
     {
         for (int j = 0; j < 100; j++ )
         {
-            this->now->generation[i][j] = !this->now->generation[i][j];
+            int checkNeighbor = 0; //ключ отслеживания соседей
+
+            for (int i1 = -1; i1 <= 1; i1++)
+            {
+                for (int j1 = -1; j1 <= 1; j1++)
+                {
+                    if (i1!= 0 && j1 != 0)
+                    {
+                        if (this->now->generation[i+i1][j+j1]) checkNeighbor++; //
+                    }
+                }
+            }
+            if (checkNeighbor < 2 || checkNeighbor > 3) this->next->generation[i][j] = false;
         }
-    };
+    }
+    for (int i = 0; i < 100; i++)
+    {
+        for (int j = 0; j < 100; j++ )
+        {
+           this->now->generation[i][j]=this->next->generation[i][j];
+        }
+    }
     this->update();
-
 }
 
-void Widget::pressedStop()
-{
-
-}

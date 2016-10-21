@@ -29,7 +29,6 @@ public:
 
 public slots:
     void pressedStart();
-    void pressedStop();
     void liveCicle();
 
 
