@@ -91,13 +91,13 @@ void Widget::pressedStart()
 {
     next = new Universe ();
 
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 100; i++) // создание нового поколения
     {
         for (int j = 0; j < 100; j++ )
         {
             int checkNeighbor = 0; //ключ отслеживания соседей
 
-            for (int i1 = -1; i1 <= 1; i1++)
+            for (int i1 = -1; i1 <= 1; i1++) //ищем живых соседей, считаем их
             {
                 for (int j1 = -1; j1 <= 1; j1++)
                 {
@@ -110,7 +110,7 @@ void Widget::pressedStart()
             if (checkNeighbor < 2 || checkNeighbor > 3) this->next->generation[i][j] = false;
         }
     }
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 100; i++) // копирование нового поколения в старое
     {
         for (int j = 0; j < 100; j++ )
         {
