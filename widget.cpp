@@ -14,8 +14,11 @@ Widget::Widget(QWidget *parent)
     connect(startButton, SIGNAL (released()),
             this, SLOT (liveCicle()));
 
-    connect(stopButton, SIGNAL (released()),
+    connect(pauseButton, SIGNAL (released()),
                 timer, SLOT (stop()));
+
+    connect(stopButton, SIGNAL (released()),
+             this, SLOT (clearUniverse()));
 
 
 
@@ -101,13 +104,14 @@ void Widget::pressedStart()
             {
                 for (int j1 = -1; j1 <= 1; j1++)
                 {
-                    if (i1!= 0 && j1 != 0)
+                    if (i1!= 0 && j1 != 0 && i+i1 >= 0 && j+j1 >= 0 && i+i1 < 100 && j+j1 < 100) //исключение оцениваемой клетки и отслеживание границ
                     {
                         if (this->now->generation[i+i1][j+j1]) checkNeighbor++; //
                     }
                 }
             }
             if (checkNeighbor < 2 || checkNeighbor > 3) this->next->generation[i][j] = false;
+            else this->next->generation[i][j] = true;
         }
     }
     for (int i = 0; i < 100; i++) // копирование нового поколения в старое
@@ -117,6 +121,14 @@ void Widget::pressedStart()
            this->now->generation[i][j]=this->next->generation[i][j];
         }
     }
+    this->next->~Universe();
     this->update();
 }
 
+
+void Widget::clearUniverse()
+{
+    now->~Universe();
+    now = new Universe();
+    update();
+}
