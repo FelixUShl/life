@@ -104,30 +104,31 @@ void Widget::pressedStart()
             {
                 for (int j1 = -1; j1 <= 1; j1++)
                 {
-                    if (i1!= 0 && j1 != 0 && i+i1 >= 0 && j+j1 >= 0 && i+i1 < 100 && j+j1 < 100) //исключение оцениваемой клетки и отслеживание границ
+                    if (i1!= 0 && j1 != 0 && i+i1 >= 0 && j+j1 >= 0 && i+i1 < 100 && j+j1 < 100) //исключение оцениваемой клетки и отслеживание границ массива
                     {
-                        if (this->now->generation[i+i1][j+j1]) checkNeighbor++; //
+                        if (now->generation[i+i1][j+j1]) checkNeighbor++; //
                     }
                 }
             }
-            if (checkNeighbor < 2 || checkNeighbor > 3) this->next->generation[i][j] = false;
-            else this->next->generation[i][j] = true;
+            if (checkNeighbor < 2 || checkNeighbor > 3) next->generation[i][j] = false;
+            else next->generation[i][j] = true;
         }
     }
     for (int i = 0; i < 100; i++) // копирование нового поколения в старое
     {
         for (int j = 0; j < 100; j++ )
         {
-           this->now->generation[i][j]=this->next->generation[i][j];
+           now->generation[i][j]=next->generation[i][j];
         }
     }
-    this->next->~Universe();
-    this->update();
+    next->~Universe();
+    update();
 }
 
 
 void Widget::clearUniverse()
 {
+    pauseButton->released();
     now->~Universe();
     now = new Universe();
     update();

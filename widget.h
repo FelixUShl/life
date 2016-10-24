@@ -17,7 +17,7 @@ public:
     Universe *now;
     Universe *next;
     QPushButton *startButton = new QPushButton ("Старт", this);
-    QPushButton *stopButton = new QPushButton ("Очистить", this);
+    QPushButton *stopButton = new QPushButton ("Сброс", this);
     QPushButton *pauseButton = new QPushButton ("Пауза", this);
 
     Widget(QWidget *parent = 0);
