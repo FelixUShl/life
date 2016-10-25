@@ -11,15 +11,14 @@ Widget::Widget(QWidget *parent)
     pauseButton->setGeometry(370, 510, 60, 30);
     stopButton->setGeometry(440, 510, 60, 30);
 
-    connect(startButton, SIGNAL (released()),
+    connect(startButton, SIGNAL (clicked()),
             this, SLOT (liveCicle()));
 
-    connect(pauseButton, SIGNAL (released()),
+    connect(pauseButton, SIGNAL (clicked()),
                 timer, SLOT (stop()));
 
-    connect(stopButton, SIGNAL (released()),
+    connect(stopButton, SIGNAL (clicked()),
              this, SLOT (clearUniverse()));
-
 
 
 }
@@ -111,7 +110,8 @@ void Widget::pressedStart()
                 }
             }
             if (checkNeighbor < 2 || checkNeighbor > 3) next->generation[i][j] = false;
-            else next->generation[i][j] = true;
+            else if (checkNeighbor == 3) next->generation[i][j] = true;
+            else next->generation[i][j] = now->generation[i][j];
         }
     }
     for (int i = 0; i < 100; i++) // копирование нового поколения в старое
@@ -121,14 +121,14 @@ void Widget::pressedStart()
            now->generation[i][j]=next->generation[i][j];
         }
     }
-    next->~Universe();
+   // next->~Universe();
     update();
 }
 
 
 void Widget::clearUniverse()
 {
-    pauseButton->released();
+    pauseButton->clicked();
     now->~Universe();
     now = new Universe();
     update();
